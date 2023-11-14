@@ -1,6 +1,12 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const colors = require("colors");
+const conectarDB = require('./config/db')
+
+//configurar variables de entorno
+dotenv.config({
+  path: "./config/.env",
+});
 
 // Dependencias de rutas
 const bootcampsRoutes = require("./routes/bootcampsRoutes");
@@ -8,8 +14,12 @@ const coursesRoutes = require("./routes/coursesRoutes");
 const reviewRoutes = require("./routes/reviewsRoutes");
 const usersRoutes = require("./routes/usersRoutes");
 
+conectarDB()
+
 //construir el objeto app
-const app = express();
+const app = express()
+
+app.use(express.json())
 
 // vincular las rutas del Proyecto
 app.use("/bootcamps", bootcampsRoutes);
@@ -17,10 +27,6 @@ app.use("/courses", coursesRoutes);
 app.use("/reviews", reviewRoutes);
 app.use("/users", usersRoutes);
 
-//configurar variables de entorno
-dotenv.config({
-  path: "./config/.env",
-});
 
 //prueba de url
 app.get("/prueba", function (req, res) {
